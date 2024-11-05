@@ -1,0 +1,33 @@
+// Import and connect to Mongoose
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/Sample", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+console.log("Connected to MongoDB")
+// Define Schema and Model
+var Schema = mongoose.Schema;
+var PersonSchema = new Schema({
+name: { type: String, required: true },
+age: Number,
+favoriteFoods: [{ type: String }],
+});
+var Person = mongoose.model("Person", PersonSchema,"persons");
+//Person.createCollection();
+// Sample data (for initial insertion)
+const arrayOfPeople = [
+{ name: "Frankie", age: 74, favoriteFoods: ["Taco"] },
+{ name: "Sol", age: 76, favoriteFoods: ["Roast chicken", "Pizza"] },
+{ name: "Robert", age: 78, favoriteFoods: ["Burger"] },
+];
+// Define and use model.find() with async/await
+var findPeopleByName = async function (personName) {
+try {
+const personFound = await Person.find({ name: personName });
+console.log(personFound);
+} catch (err) {
+console.log(err);
+}
+};
+// Call the function
+findPeopleByName("Muhil");
